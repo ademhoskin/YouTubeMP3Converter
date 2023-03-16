@@ -15,10 +15,11 @@ class InvalidURL(Exception):
 
 # our class the YouTube Converter
 class YoutubeConverter(object):
-    # this will use user input to create an object
+    # this will use user input to create an object, will also initialize the clean_title attribute for conversion method
     def __init__(self, url, output_dir):
         self.url = url
         self.output_dir = output_dir
+        self.clean_title = None
 
     # uses the url and output_dir to validate and download audio in mp4 (I hate pytube)
     def download_audio(self):
@@ -34,14 +35,11 @@ class YoutubeConverter(object):
         stream = yt.streams.filter(only_audio=True).first()
         stream.download(output_path=self.output_dir, filename=clean_title)
 
-        # returns clean title for conversion method
-        return clean_title
-
     # ffmpeg conversion method, will take the user's requested output format to convert the mp4 to (wav or mp3)
     def convert_audio(self, output_format):
-        input_file = self.output_dir + ''
+        input_file = self.clean_title
         if output_format == 'mp3':
-            output_file = self.output_dir + /{clean_title}.mp3
+            output_file = f'{self.output_dir}/{clean_title}.mp3'
         elif output_format == 'wav':
             output_file = self.output_dir + f'/{clean_title}.wav'
         else:
