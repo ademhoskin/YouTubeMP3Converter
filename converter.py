@@ -51,11 +51,14 @@ class YoutubeConverter(object):
         subprocess.call(command)
 
 
+def main():
+    print("Welcome to Adem's YouTube to Audio Converter!")
+    url = input('Enter Youtube URl of video to convert: ')
+    output_dir = input('Enter directory where you want the file to be saved to: ')
+    output_format = input('Enter output format (mp3 or wav): ')
+    converter = YoutubeConverter(url, output_dir)
+    converter.download_audio()
+    converter.convert_audio(output_format)
 
 
-
-
-
-
-
-
+main()
