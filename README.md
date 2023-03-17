@@ -1,6 +1,16 @@
 # Youtube to MP3/WAV Converter (Linux and Windows)
 
-This is a user-friendly script that allows the user to download .mp3 or .wav files
+This is a user-friendly script that allows the user to download .mp3 or .wav files from YouTube videos.
+
+## **IMPORTANT**
+This script requires the user to have ffmpeg installed in order to perform the audio conversion.  
+If you do not have ffmpeg installed, use the following tutorials based on your system:
+### Windows-based:
+Follow this video tutorial:      
+https://www.youtube.com/watch?v=r1AtmY-RMyQ  
+### Linux-based:
+Follow this tutorial by GeeksForGeeks:
+https://www.geeksforgeeks.org/how-to-install-ffmpeg-in-linux/
 
 ## Custom Modules Implemented
 
@@ -152,8 +162,8 @@ python __main__.py
 ## Notes:
 Make sure when downloading, you have permissions on the directory, 
 otherwise you will get an error popup. (Errno 13- Permission Denied)
-### Known Issues:
-When program successfully downloads, the popup window is not visible.
+### Current bugs:
+Kubuntu 22.10: When program successfully downloads, the popup window is not visible.
 The program will still work, just close the window through your taskbar.
 I will figure a fix for it :).
 
