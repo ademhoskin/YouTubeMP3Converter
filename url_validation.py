@@ -11,5 +11,6 @@ def validate_url(url):
     else:
         raise InvalidURL()
 
+
 if __name__ == "__main__":
     print('Running URL validation script')

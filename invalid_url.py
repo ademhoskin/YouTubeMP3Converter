@@ -2,6 +2,8 @@
 class InvalidURL(Exception):
     def __init__(self, message="Error: Invalid Youtube URL"):
         self.message = message
+    def __str__(self):
+        return self.message
 
 
 if __name__ == "__main__":
