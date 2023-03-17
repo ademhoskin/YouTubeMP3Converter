@@ -2,7 +2,7 @@
 
 This is a user-friendly script that allows the user to download .mp3 or .wav files
 
-## Custom Modules implemented
+## Custom Modules Implemented
 
 ### Invalid URL Exception Module
 
@@ -149,6 +149,13 @@ Run the script using the following command on your terminal:
 ```bash
 python __main__.py
 ```
+## Notes:
+Make sure when downloading, you have permissions on the directory, 
+otherwise you will get an error popup. (Errno 13- Permission Denied)
+### Known Issues:
+When program successfully downloads, the popup window is not visible.
+The program will still work, just close the window through your taskbar.
+I will figure a fix for it :).
 
 
 
