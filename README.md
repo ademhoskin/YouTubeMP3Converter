@@ -1,4 +1,4 @@
-# Youtube to MP3/WAV Converter
+# Youtube to MP3/WAV Converter (CURRENTLY ONLY RUNS ON LINUX, WILL SUPPORT WINDOWS SOON)
 
 This is a user-friendly script that allows the user to download .mp3 or .wav files
 
