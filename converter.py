@@ -1,64 +1,45 @@
-# i will need pytube to get the audio mp4  and use ffmpeg to convert mp4 to mp3/wav, use regex to validate url
-from pytube import YouTube
-import subprocess
-import re
+# imports YoutuberConverter class, InvalidURL exception, os for directory validation and validate_url function
 
-
-# our custom exception: the invalid url
-class InvalidURL(Exception):
-    def __init__(self, message="Error: Invalid Youtube URL"):
-        self.message = message
-
-    def __str__(self):
-        return self.message
-
-
-# our class the YouTube Converter
-class YoutubeConverter(object):
-    # this will use user input to create an object, will also initialize the clean_title attribute for conversion method
-    def __init__(self, url, output_dir):
-        self.url = url
-        self.output_dir = output_dir
-        self.clean_title = None
-
-    # uses the url and output_dir to validate and download audio in mp4 (I hate pytube)
-    def download_audio(self):
-        # regex validation/exception implementation
-        url_pattern = re.compile(r'https?://(www\.)?youtube\.com/watch\?v=\w+')
-        if not url_pattern.match(self.url):
-            raise InvalidURL()
-
-        # Download the YouTube video using pytube
-        yt = YouTube(self.url)
-        title = yt.title
-        self.clean_title = re.sub('[^0-9a-zA-Z]+', '_', title)
-        stream = yt.streams.filter(only_audio=True).first()
-        stream.download(output_path=self.output_dir, filename=self.clean_title)
-
-    # ffmpeg conversion method, will take the user's requested output format to convert the mp4 to (wav or mp3)
-    def convert_audio(self, output_format):
-        input_file = self.clean_title
-        if output_format == 'mp3':
-            output_file = f'{self.output_dir}/{self.clean_title}.mp3'
-            command = ["ffmpeg", "-i", input_file, "-vn", "-ar", "44100", "-ac", "2", "-b:a", "192k", output_file]
-        elif output_format == 'wav':
-            output_file = f'{self.output_dir}/{self.clean_title}.wav'
-            command = ["ffmpeg", "-i", input_file, "-vn", "-acodec", "pcm_s16le", "-ac", "2", "-ar", "44100", output_file]
-        else:
-            print('Invalid output format!')
-            return
-
-        subprocess.call(command)
+import os
+from url_validation import validate_url
+from youtube_converter import YoutubeConverter
+from invalid_url import InvalidURL
 
 
 def main():
     print("Welcome to Adem's YouTube to Audio Converter!")
-    url = input('Enter Youtube URl of video to convert: ')
-    output_dir = input('Enter directory where you want the file to be saved to: ')
-    output_format = input('Enter output format (mp3 or wav): ')
-    converter = YoutubeConverter(url, output_dir)
-    converter.download_audio()
-    converter.convert_audio(output_format)
+    # runs validation on url input
+    while True:
+        try:
+            url = input('Enter Youtube URl of video to convert: ')
+            if validate_url(url):
+                break
+        except InvalidURL as i:
+            print(i)
+    # runs validation on directory input
+    while True:
+        output_dir = input('Enter directory where you want the file to be saved to: ')
+        if os.path.isdir(output_dir):
+            break
+        else:
+            print('Invalid directory. Enter a valid directory path.')
+    # runs validation on output format
+    while True:
+        output_format = input('Enter output format (enter mp3 or wav): ')
+        if output_format == 'mp3' or output_format == 'wav':
+            break
+        else:
+            print('Invalid format. Enter mp3 or wav.')
 
+    # Uses class methods
+    try:
+        converter = YoutubeConverter(url, output_dir)
+        converter.download_audio()
+        converter.convert_audio(output_format)
+    # exception to cover unforeseen stuff
+    except:
+        print("Unknown error occurred :(")
 
-main()
+# this is the main script so duh will run
+if __name__ == "__main__":
+    main()
