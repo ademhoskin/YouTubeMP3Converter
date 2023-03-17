@@ -35,38 +35,42 @@ def get_output_directory():
     return output_dir
 
 # PySimpleGUI layout for the main window
-layout = [
-    [sg.Text("YouTube URL:")],
-    [sg.Input(key="url")],
-    [sg.Text("Output directory:")],
-    [sg.Input(key="output_dir"), sg.Button("Browse", key="browse_output_dir")],
-    [sg.Text("Output format:")],
-    [sg.Radio("mp3", "format", default=True, key="mp3"), sg.Radio("wav", "format", key="wav")],
-    [sg.Button("Download Audio"), sg.Button("Exit")],
-]
+def main():
+    layout = [
+        [sg.Text("YouTube URL:")],
+        [sg.Input(key="url")],
+        [sg.Text("Output directory:")],
+        [sg.Input(key="output_dir"), sg.Button("Browse", key="browse_output_dir")],
+        [sg.Text("Output format:")],
+        [sg.Radio("mp3", "format", default=True, key="mp3"), sg.Radio("wav", "format", key="wav")],
+        [sg.Button("Download Audio"), sg.Button("Exit")],
+    ]
 
-# Create PySimpleGUI window with the layout
-window = sg.Window("Adem's YouTube to Audio Converter", layout)
+    # Create PySimpleGUI window with the layout
+    window = sg.Window("Adem's YouTube to Audio Converter", layout)
 
-# Event loop for the window
-while True:
-    event, values = window.read()
+    # Event loop for the window
+    while True:
+        event, values = window.read()
 
-    # Close the window if the "Exit" button or close icon is clicked
-    if event == sg.WIN_CLOSED or event == "Exit":
-        break
+        # Close the window if the "Exit" button or close icon is clicked
+        if event == sg.WIN_CLOSED or event == "Exit":
+            break
 
-    # Call the download_audio function if the "Download Audio" button is clicked
-    if event == "Download Audio":
-        url = values["url"]
-        output_dir = values["output_dir"]
-        output_format = "mp3" if values["mp3"] else "wav"
-        download_audio(url, output_dir, output_format)
+        # Call the download_audio function if the "Download Audio" button is clicked
+        if event == "Download Audio":
+            url = values["url"]
+            output_dir = values["output_dir"]
+            output_format = "mp3" if values["mp3"] else "wav"
+            download_audio(url, output_dir, output_format)
 
-    # Call the get_output_directory function if the "Browse" button next to the output directory input is clicked
-    if event == "browse_output_dir":
-        output_dir = get_output_directory()
-        window["output_dir"].update(value=output_dir)
+        # Call the get_output_directory function if the "Browse" button next to the output directory input is clicked
+        if event == "browse_output_dir":
+            output_dir = get_output_directory()
+            window["output_dir"].update(value=output_dir)
 
-# Close the window at the end of the event loop
-window.close()
+    # Close the window at the end of the event loop
+    window.close()
+
+if __name__ == "__main__":
+    main()
